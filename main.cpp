@@ -26,7 +26,7 @@ int main() {
   vector<complex<double>> F(N1 * N2 * N3);
 
   // Bench FINUFFT
-  auto bench = ankerl::nanobench::Bench().warmup(1).minEpochIterations(3);
+  auto bench = ankerl::nanobench::Bench().warmup(1).minEpochIterations(5);
   bench.run("FINUFFT 3d", [&] {
     int ier = finufft3d1(M, &x[0], &y[0], &z[0], &c[0], +1, 1e-3, N1, N2, N3,
                          &F[0], NULL);
@@ -69,6 +69,14 @@ int main() {
     ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-6, 8, grid_cm, 0,
                                 1.1, 2.6, 2 * M_PI, false);
   });
+  bench.run("Ducco 1e-4 32 threads", [&] {
+    ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-4, 32, grid_cm, 0,
+                                1.1, 2.6, 2 * M_PI, false);
+  });
+  bench.run("Ducco 1e-4 16 threads", [&] {
+    ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-4, 16, grid_cm, 0,
+                                1.1, 2.6, 2 * M_PI, false);
+  });
   bench.run("Ducco 1e-4 8 threads", [&] {
     ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-4, 8, grid_cm, 0,
                                 1.1, 2.6, 2 * M_PI, false);
@@ -86,6 +94,12 @@ int main() {
                                 1.1, 2.6, 2 * M_PI, true);
   });
 
+  std::cout << "32 threads verbose\n";
+  ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-6, 32, grid_cm, 1,
+                              1.1, 2.6, 2 * M_PI, false);
+  std::cout << "16 threads verbose\n";
+  ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-6, 16, grid_cm, 1,
+                              1.1, 2.6, 2 * M_PI, false);
   std::cout << "8 threads verbose\n";
   ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-6, 8, grid_cm, 1,
                               1.1, 2.6, 2 * M_PI, false);
