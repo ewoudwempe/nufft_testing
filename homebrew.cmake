@@ -1,8 +1,11 @@
+# https://stackoverflow.com/questions/68105648/configure-cmake-to-work-with-homebrew-libraries-instead-system-provided-librarie
 set(HOMEBREW_PREFIX "/opt/homebrew"
     CACHE PATH "Path to Homebrew installation")
 
-set(CMAKE_C_COMPILER "${HOMEBREW_PREFIX}/bin/gcc-13")
-set(CMAKE_CXX_COMPILER "${HOMEBREW_PREFIX}/bin/g++-13")
+  #set(CMAKE_C_COMPILER "${HOMEBREW_PREFIX}/bin/gcc-13")
+  #set(CMAKE_CXX_COMPILER "${HOMEBREW_PREFIX}/bin/g++-13")
+  set(CMAKE_C_COMPILER "${HOMEBREW_PREFIX}/opt/llvm/bin/clang")
+  set(CMAKE_CXX_COMPILER "${HOMEBREW_PREFIX}/opt/llvm/bin/clang++")
 
 set(CMAKE_PREFIX_PATH
     "${HOMEBREW_PREFIX}"
