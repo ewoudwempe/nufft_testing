@@ -5,55 +5,103 @@ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DCMAKE_TOOLC
 
 # Sample (my laptop):
 ```
+
 |               ns/op |                op/s |    err% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------:|:----------
-|      224,389,125.00 |                4.46 |    1.1% |      7.74 | `FINUFFT 3d`
-|      221,164,069.67 |                4.52 |    1.5% |      7.53 | `FINUFFT With plan`
-|      278,953,166.67 |                3.58 |    1.0% |      9.46 | `FINUFFT With plan & FFTW_MEASURE`
-|       66,403,916.67 |               15.06 |    2.0% |      2.29 | `Ducco 1e-6 8 threads`
-|       46,920,552.00 |               21.31 |    1.4% |      1.60 | `Ducco 1e-4 8 threads`
-|       47,314,402.67 |               21.14 |    1.1% |      1.62 | `Ducco 1e-4 fourier output`
-|       44,776,416.67 |               22.33 |    2.6% |      1.52 | `Ducco 1e-4 6 threads`
-|       43,345,888.67 |               23.07 |    0.9% |      1.48 | `Ducco 1e-4 4 threads`
+|      225,384,541.60 |                4.44 |    1.2% |     13.52 | `FINUFFT 3d`
+|      221,929,925.00 |                4.51 |    2.0% |     13.41 | `FINUFFT With plan`
+|      294,113,152.67 |                3.40 |    1.5% |     17.59 | `FINUFFT With plan & FFTW_MEASURE`
+|       43,830,191.80 |               22.82 |    0.3% |      2.63 | `Ducco 1e-4 32 threads`
+|       38,593,638.83 |               25.91 |    0.4% |      2.31 | `Ducco 1e-4 32 threads float`
+|       43,988,375.00 |               22.73 |    0.3% |      2.64 | `Ducco 1e-4 16 threads`
+|       38,441,465.33 |               26.01 |    0.4% |      2.31 | `Ducco 1e-4 16 threads float`
+|       43,836,458.20 |               22.81 |    0.4% |      2.63 | `Ducco 1e-4 8 threads`
+|       38,524,333.33 |               25.96 |    0.2% |      2.31 | `Ducco 1e-4 8 threads float`
+|       39,947,680.50 |               25.03 |    3.2% |      2.62 | `Ducco 1e-4 6 threads`
+|       30,629,800.00 |               32.65 |    0.5% |      1.86 | `Ducco 1e-4 6 threads float`
+|       52,492,694.50 |               19.05 |    0.2% |      3.15 | `Ducco 1e-4 4 threads`
+|       40,499,750.00 |               24.69 |    0.2% |      2.43 | `Ducco 1e-4 4 threads float`
+|       43,762,158.20 |               22.85 |    0.2% |      2.63 | `Ducco 1e-4 8 fourier output`
+32 threads verbose
+Nu2u:
+  nthreads=8, grid=(128x128x128), oversampled grid=(180x180x180), supp=10, eps=1.000000000000000e-06
+  npoints=500000
+  memory overhead: 1.862645149230957e-03GB (index) + 8.690357208251953e-02GB (oversampled grid)
+
+Total wall clock time for nu2u: 0.06773s
+|
++- nu2u proper          : 96.46% (0.0653s)
+|  |
+|  +- spreading            : 70.03% (0.0458s)
+|  +- FFT                  : 15.00% (0.0098s)
+|  +- zeroing grid         : 12.75% (0.0083s)
+|  +- grid correction      :  2.20% (0.0014s)
+|  +- allocating grid      :  0.02% (0.0000s)
+|  
++- building index       :  3.30% (0.0022s)
++- correction factors   :  0.08% (0.0001s)
++- parameter calculation:  0.01% (0.0000s)
++- <unaccounted>        :  0.15% (0.0001s)
+16 threads verbose
+Nu2u:
+  nthreads=8, grid=(128x128x128), oversampled grid=(180x180x180), supp=10, eps=1.000000000000000e-06
+  npoints=500000
+  memory overhead: 1.862645149230957e-03GB (index) + 8.690357208251953e-02GB (oversampled grid)
+
+Total wall clock time for nu2u: 0.06083s
+|
++- nu2u proper          : 96.35% (0.0586s)
+|  |
+|  +- spreading            : 76.04% (0.0446s)
+|  +- FFT                  : 16.35% (0.0096s)
+|  +- zeroing grid         :  5.17% (0.0030s)
+|  +- grid correction      :  2.44% (0.0014s)
+|  +- allocating grid      :  0.00% (0.0000s)
+|  
++- building index       :  3.41% (0.0021s)
++- correction factors   :  0.07% (0.0000s)
++- parameter calculation:  0.01% (0.0000s)
++- <unaccounted>        :  0.16% (0.0001s)
 8 threads verbose
 Nu2u:
   nthreads=8, grid=(128x128x128), oversampled grid=(180x180x180), supp=10, eps=1.000000000000000e-06
   npoints=500000
   memory overhead: 1.862645149230957e-03GB (index) + 8.690357208251953e-02GB (oversampled grid)
 
-Total wall clock time for nu2u: 0.06562s
+Total wall clock time for nu2u: 0.06255s
 |
-+- nu2u proper          : 96.23% (0.0631s)
++- nu2u proper          : 96.22% (0.0602s)
 |  |
-|  +- spreading            : 76.31% (0.0482s)
-|  +- FFT                  : 16.37% (0.0103s)
-|  +- zeroing grid         :  4.84% (0.0031s)
-|  +- grid correction      :  2.49% (0.0016s)
-|  +- allocating grid      :  0.00% (0.0000s)
+|  +- spreading            : 76.71% (0.0462s)
+|  +- FFT                  : 15.84% (0.0095s)
+|  +- zeroing grid         :  5.08% (0.0031s)
+|  +- grid correction      :  2.36% (0.0014s)
+|  +- allocating grid      :  0.01% (0.0000s)
 |  
-+- building index       :  3.52% (0.0023s)
-+- correction factors   :  0.09% (0.0001s)
++- building index       :  3.58% (0.0022s)
++- correction factors   :  0.06% (0.0000s)
 +- parameter calculation:  0.01% (0.0000s)
-+- <unaccounted>        :  0.14% (0.0001s)
++- <unaccounted>        :  0.13% (0.0001s)
 4 threads verbose 
 Nu2u:
   nthreads=4, grid=(128x128x128), oversampled grid=(180x180x180), supp=10, eps=1.000000000000000e-06
   npoints=500000
   memory overhead: 1.862645149230957e-03GB (index) + 8.690357208251953e-02GB (oversampled grid)
 
-Total wall clock time for nu2u: 0.07597s
+Total wall clock time for nu2u: 0.07497s
 |
-+- nu2u proper          : 96.33% (0.0732s)
++- nu2u proper          : 96.00% (0.0720s)
 |  |
-|  +- spreading            : 77.88% (0.0570s)
-|  +- FFT                  : 15.81% (0.0116s)
-|  +- zeroing grid         :  4.03% (0.0030s)
-|  +- grid correction      :  2.27% (0.0017s)
+|  +- spreading            : 78.53% (0.0565s)
+|  +- FFT                  : 15.24% (0.0110s)
+|  +- zeroing grid         :  3.92% (0.0028s)
+|  +- grid correction      :  2.30% (0.0017s)
 |  +- allocating grid      :  0.00% (0.0000s)
 |  
-+- building index       :  3.55% (0.0027s)
++- building index       :  3.83% (0.0029s)
 +- correction factors   :  0.04% (0.0000s)
 +- parameter calculation:  0.01% (0.0000s)
++- <unaccounted>        :  0.13% (0.0001s)
 ```
 # Sample (dardel cluster)
 ```

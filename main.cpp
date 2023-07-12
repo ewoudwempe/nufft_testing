@@ -3,9 +3,9 @@
 #include <ducc0/nufft/nufft.h>
 #include <fftw3.h>
 #include <finufft.h>
+#include <fmt/core.h>
 #include <iostream>
 #include <nanobench.h>
-#include <vector>
 
 using namespace std;
 using namespace std::complex_literals;
@@ -15,15 +15,20 @@ int main() {
   size_t M = 5e5; // number of nonuniform points
   vector<double> x(M), y(M), z(M);
   vector<complex<double>> c(M);
+  vector<complex<float>> c_float(M);
   for (size_t j = 0; j < M; ++j) {
     x[j] = M_PI * (2 * ((double)rand() / RAND_MAX) - 1);
     y[j] = M_PI * (2 * ((double)rand() / RAND_MAX) - 1);
     z[j] = M_PI * (2 * ((double)rand() / RAND_MAX) - 1);
     c[j] = 2 * ((double)rand() / RAND_MAX) - 1 +
            1i * (2 * ((double)rand() / RAND_MAX) - 1);
+    c_float[j] = 2 * ((float)rand() / RAND_MAX) - 1 +
+                 1if * (2 * ((float)rand() / RAND_MAX) - 1);
   }
+
   size_t N1 = 128, N2 = 128, N3 = 128;
   vector<complex<double>> F(N1 * N2 * N3);
+  vector<complex<float>> F_float(N1 * N2 * N3);
 
   // Bench FINUFFT
   auto bench = ankerl::nanobench::Bench().warmup(1).minEpochIterations(5);
@@ -61,36 +66,24 @@ int main() {
   auto coords_cm =
       ducc0::cmav<double, 2>(coords.data(), std::array<size_t, 2>{M, 3l});
   auto points_cm = ducc0::cmav<complex<double>, 1>(c.data(), {M});
+  auto points_float = ducc0::cmav<complex<float>, 1>(c_float.data(), {M});
   auto grid_cm = ducc0::vfmav<complex<double>>(
       F.data(), std::vector<size_t>{128ul, 128ul, 128ul});
-
+  auto grid_cm_float = ducc0::vfmav<complex<float>>(
+      F_float.data(), std::vector<size_t>{128ul, 128ul, 128ul});
   // Bench ducc0
-  bench.run("Ducco 1e-6 8 threads", [&] {
-    ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-6, 8, grid_cm, 0,
-                                1.1, 2.6, 2 * M_PI, false);
-  });
-  bench.run("Ducco 1e-4 32 threads", [&] {
-    ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-4, 32, grid_cm, 0,
-                                1.1, 2.6, 2 * M_PI, false);
-  });
-  bench.run("Ducco 1e-4 16 threads", [&] {
-    ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-4, 16, grid_cm, 0,
-                                1.1, 2.6, 2 * M_PI, false);
-  });
-  bench.run("Ducco 1e-4 8 threads", [&] {
+  for (int nthreads : {32, 16, 8, 6, 4}) {
+    bench.run(fmt::format("Ducco 1e-4 {} threads", nthreads), [&] {
+      ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-4, nthreads,
+                                  grid_cm, 0, 1.1, 2.6, 2 * M_PI, false);
+    });
+    bench.run(fmt::format("Ducco 1e-4 {} threads float", nthreads), [&] {
+      ducc0::nu2u<float, float>(coords_cm, points_float, true, 1e-4, nthreads,
+                                grid_cm_float, 0, 1.1, 2.6, 2 * M_PI, false);
+    });
+  }
+  bench.run("Ducco 1e-4 8 fourier output", [&] {
     ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-4, 8, grid_cm, 0,
-                                1.1, 2.6, 2 * M_PI, false);
-  });
-  bench.run("Ducco 1e-4 fourier output", [&] {
-    ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-4, 8, grid_cm, 0,
-                                1.1, 2.6, 2 * M_PI, true);
-  });
-  bench.run("Ducco 1e-4 6 threads", [&] {
-    ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-4, 6, grid_cm, 0,
-                                1.1, 2.6, 2 * M_PI, true);
-  });
-  bench.run("Ducco 1e-4 4 threads", [&] {
-    ducc0::nu2u<double, double>(coords_cm, points_cm, true, 1e-4, 6, grid_cm, 0,
                                 1.1, 2.6, 2 * M_PI, true);
   });
 

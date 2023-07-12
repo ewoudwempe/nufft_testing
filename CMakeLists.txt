@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD 20)
 # add dependencies
 include(cmake/CPM.cmake)
 
+add_compile_options("$<$<CONFIG:RELEASE>:-O3;-march=native;-mtune=native>")
+
 CPMAddPackage(
   NAME             finufft
   GIT_REPOSITORY   https://github.com/flatironinstitute/finufft.git
@@ -50,10 +52,12 @@ if(ducc_ADDED)
   target_include_directories(ducc SYSTEM INTERFACE ${ducc_SOURCE_DIR}/src/)
   #target_compile_features(ducc INTERFACE cxx_std_17 )
 endif()
+
+CPMAddPackage("gh:fmtlib/fmt#10.0.0")
 #
 # add executable
 #
 add_executable(main main.cpp)
 
-target_link_libraries(main PRIVATE finufft nanobench ducc)
+target_link_libraries(main PRIVATE finufft nanobench ducc fmt::fmt)
 target_compile_options(main PRIVATE -Wall -Wextra -Wpedantic)
