@@ -113,93 +113,97 @@ Recommendations
 
 |               ns/op |                op/s |    err% |          ins/op |          cyc/op |    IPC |         bra/op |   miss% |     total | benchmark
 |--------------------:|--------------------:|--------:|----------------:|----------------:|-------:|---------------:|--------:|----------:|:----------
-|      206,122,584.17 |                4.85 |    1.4% |  218,549,693.40 |  512,901,426.50 |  0.426 |  26,987,868.80 |    0.1% |     12.37 | `FINUFFT 3d`
-|      223,238,714.00 |                4.48 |    1.2% |  237,817,837.83 |  625,744,072.40 |  0.380 |  28,594,510.00 |    0.1% |     13.39 | `FINUFFT With plan`
-|      173,781,052.50 |                5.75 |    2.4% |  216,461,015.50 |  521,121,835.00 |  0.415 |  27,928,326.33 |    0.2% |     10.32 | `FINUFFT With plan & FFTW_MEASURE`
-|       80,530,501.33 |               12.42 |    0.8% |  582,561,271.50 |  230,804,008.17 |  2.524 |  18,546,873.83 |    0.7% |      4.81 | `Ducco 1e-6 8 threads`
-|       28,576,612.67 |               34.99 |    5.5% |  111,212,456.17 |   67,068,312.83 |  1.658 |   3,589,762.80 |    0.5% |      1.77 | :wavy_dash: `Ducco 1e-4 32 threads` (Unstable with ~5.5 iters. Increase `minEpochIterations` to e.g. 55)
-|       41,127,675.80 |               24.31 |    0.2% |  180,491,044.80 |  108,140,203.17 |  1.669 |   6,969,893.80 |    0.4% |      2.47 | `Ducco 1e-4 16 threads`
-|       69,182,510.60 |               14.45 |    0.3% |  359,627,966.00 |  202,611,525.33 |  1.775 |  13,755,763.50 |    0.4% |      4.14 | `Ducco 1e-4 8 threads`
-|       68,845,992.00 |               14.53 |    0.2% |  364,397,699.83 |  204,265,575.17 |  1.784 |  13,989,759.83 |    0.4% |      4.13 | `Ducco 1e-4 fourier output`
-|       87,570,858.40 |               11.42 |    0.3% |  478,560,315.33 |  259,971,547.50 |  1.841 |  18,156,555.33 |    0.4% |      5.26 | `Ducco 1e-4 6 threads`
-|       87,630,835.67 |               11.41 |    0.3% |  481,837,531.80 |  261,165,641.00 |  1.845 |  18,377,360.60 |    0.4% |      5.25 | `Ducco 1e-4 4 threads`
+|      197,880,456.00 |                5.05 |    0.6% |  217,901,963.50 |  556,676,074.40 |  0.391 |  26,804,637.67 |    0.1% |     11.90 | `FINUFFT 3d`
+|      217,053,533.00 |                4.61 |    1.2% |  237,479,472.33 |  686,037,967.67 |  0.346 |  28,508,262.33 |    0.1% |     13.10 | `FINUFFT With plan`
+|      182,291,613.83 |                5.49 |    0.9% |  212,051,136.33 |  606,609,030.00 |  0.350 |  26,951,057.60 |    0.1% |     10.96 | `FINUFFT With plan & FFTW_MEASURE`
+|       30,652,621.20 |               32.62 |    1.1% |   43,370,731.60 |   56,349,593.60 |  0.770 |   2,783,816.60 |    0.6% |      1.85 | `Ducco 1e-4 32 threads`
+|       23,126,182.40 |               43.24 |    0.9% |   45,454,210.67 |   36,355,304.83 |  1.250 |   2,874,777.67 |    0.6% |      1.39 | `Ducco 1e-4 32 threads float`
+|       28,062,049.80 |               35.64 |    0.5% |   89,783,783.00 |   61,602,046.00 |  1.457 |   5,703,966.00 |    0.5% |      1.68 | `Ducco 1e-4 16 threads`
+|       24,461,132.60 |               40.88 |    0.2% |   94,985,909.40 |   57,800,654.00 |  1.643 |   5,901,750.80 |    0.5% |      1.47 | `Ducco 1e-4 16 threads float`
+|       38,049,807.40 |               26.28 |    0.3% |  180,686,363.40 |   95,224,163.83 |  1.897 |  11,415,654.60 |    0.5% |      2.28 | `Ducco 1e-4 8 threads`
+|       36,013,203.60 |               27.77 |    0.2% |  184,567,803.20 |   93,448,693.83 |  1.975 |  11,373,860.40 |    0.5% |      2.16 | `Ducco 1e-4 8 threads float`
+|       46,204,953.60 |               21.64 |    0.3% |  242,307,766.50 |  116,781,956.00 |  2.075 |  15,277,996.00 |    0.5% |      2.77 | `Ducco 1e-4 6 threads`
+|       43,755,238.00 |               22.85 |    0.4% |  253,121,146.20 |  120,862,158.60 |  2.094 |  15,587,196.00 |    0.5% |      2.63 | `Ducco 1e-4 6 threads float`
+|       59,475,115.80 |               16.81 |    0.2% |  354,763,380.50 |  162,042,707.67 |  2.189 |  22,196,754.17 |    0.5% |      3.57 | `Ducco 1e-4 4 threads`
+|       59,157,025.17 |               16.90 |    0.2% |  382,848,719.50 |  175,843,370.83 |  2.177 |  23,595,635.67 |    0.5% |      3.55 | `Ducco 1e-4 4 threads float`
+|       38,257,984.67 |               26.14 |    0.2% |  185,828,618.00 |   96,719,700.60 |  1.921 |  11,702,591.67 |    0.4% |      2.29 | `Ducco 1e-4 8 fourier output`
 32 threads verbose
 Nu2u:
   nthreads=32, grid=(128x128x128), oversampled grid=(162x162x162), supp=12, eps=1.000000000000000e-06
   npoints=500000
   memory overhead: 1.862645149230957e-03GB (index) + 6.335270404815674e-02GB (oversampled grid)
 
-Total wall clock time for nu2u: 0.04319s
+Total wall clock time for nu2u: 0.04277s
 |
-+- nu2u proper          : 89.86% (0.0388s)
++- nu2u proper          : 95.06% (0.0407s)
 |  |
-|  +- spreading            : 78.62% (0.0305s)
-|  +- FFT                  : 11.12% (0.0043s)
-|  +- zeroing grid         :  6.30% (0.0024s)
-|  +- grid correction      :  3.91% (0.0015s)
-|  +- allocating grid      :  0.05% (0.0000s)
+|  +- spreading            : 77.31% (0.0314s)
+|  +- FFT                  : 11.03% (0.0045s)
+|  +- zeroing grid         :  8.40% (0.0034s)
+|  +- grid correction      :  3.20% (0.0013s)
+|  +- allocating grid      :  0.06% (0.0000s)
 |  
-+- building index       :  8.67% (0.0037s)
-+- correction factors   :  1.14% (0.0005s)
++- building index       :  3.72% (0.0016s)
++- correction factors   :  0.85% (0.0004s)
 +- parameter calculation:  0.03% (0.0000s)
-+- <unaccounted>        :  0.30% (0.0001s)
++- <unaccounted>        :  0.33% (0.0001s)
 16 threads verbose
 Nu2u:
-  nthreads=16, grid=(128x128x128), oversampled grid=(180x180x180), supp=10, eps=1.000000000000000e-06
+  nthreads=16, grid=(128x128x128), oversampled grid=(168x168x168), supp=11, eps=1.000000000000000e-06
   npoints=500000
-  memory overhead: 1.862645149230957e-03GB (index) + 8.690357208251953e-02GB (oversampled grid)
+  memory overhead: 1.862645149230957e-03GB (index) + 7.065582275390625e-02GB (oversampled grid)
 
-Total wall clock time for nu2u: 0.05184s
+Total wall clock time for nu2u: 0.04139s
 |
-+- nu2u proper          : 89.59% (0.0464s)
++- nu2u proper          : 96.16% (0.0398s)
 |  |
-|  +- spreading            : 77.52% (0.0360s)
-|  +- FFT                  : 14.45% (0.0067s)
-|  +- zeroing grid         :  5.03% (0.0023s)
-|  +- grid correction      :  2.97% (0.0014s)
-|  +- allocating grid      :  0.02% (0.0000s)
+|  +- spreading            : 78.93% (0.0314s)
+|  +- FFT                  : 10.68% (0.0042s)
+|  +- zeroing grid         :  6.72% (0.0027s)
+|  +- grid correction      :  3.62% (0.0014s)
+|  +- allocating grid      :  0.05% (0.0000s)
 |  
-+- building index       : 10.15% (0.0053s)
-+- correction factors   :  0.09% (0.0000s)
++- building index       :  3.48% (0.0014s)
++- correction factors   :  0.10% (0.0000s)
 +- parameter calculation:  0.03% (0.0000s)
-+- <unaccounted>        :  0.15% (0.0001s)
++- <unaccounted>        :  0.23% (0.0001s)
 8 threads verbose
 Nu2u:
   nthreads=8, grid=(128x128x128), oversampled grid=(180x180x180), supp=10, eps=1.000000000000000e-06
   npoints=500000
   memory overhead: 1.862645149230957e-03GB (index) + 8.690357208251953e-02GB (oversampled grid)
 
-Total wall clock time for nu2u: 0.07848s
+Total wall clock time for nu2u: 0.05809s
 |
-+- nu2u proper          : 86.93% (0.0682s)
++- nu2u proper          : 96.31% (0.0559s)
 |  |
-|  +- spreading            : 78.24% (0.0534s)
-|  +- FFT                  : 15.27% (0.0104s)
-|  +- zeroing grid         :  4.28% (0.0029s)
-|  +- grid correction      :  2.18% (0.0015s)
-|  +- allocating grid      :  0.03% (0.0000s)
+|  +- spreading            : 77.14% (0.0432s)
+|  +- FFT                  : 14.69% (0.0082s)
+|  +- zeroing grid         :  5.26% (0.0029s)
+|  +- grid correction      :  2.87% (0.0016s)
+|  +- allocating grid      :  0.04% (0.0000s)
 |  
-+- building index       : 12.90% (0.0101s)
-+- correction factors   :  0.05% (0.0000s)
++- building index       :  3.49% (0.0020s)
++- correction factors   :  0.06% (0.0000s)
 +- parameter calculation:  0.02% (0.0000s)
-+- <unaccounted>        :  0.10% (0.0001s)
++- <unaccounted>        :  0.13% (0.0001s)
 4 threads verbose 
 Nu2u:
   nthreads=4, grid=(128x128x128), oversampled grid=(180x180x180), supp=10, eps=1.000000000000000e-06
   npoints=500000
   memory overhead: 1.862645149230957e-03GB (index) + 8.690357208251953e-02GB (oversampled grid)
 
-Total wall clock time for nu2u: 0.1364s
+Total wall clock time for nu2u: 0.09319s
 |
-+- nu2u proper          : 85.28% (0.1163s)
++- nu2u proper          : 95.95% (0.0894s)
 |  |
-|  +- spreading            : 77.42% (0.0901s)
-|  +- FFT                  : 16.57% (0.0193s)
-|  +- zeroing grid         :  3.93% (0.0046s)
-|  +- grid correction      :  2.07% (0.0024s)
-|  +- allocating grid      :  0.02% (0.0000s)
+|  +- spreading            : 77.77% (0.0695s)
+|  +- FFT                  : 14.53% (0.0130s)
+|  +- zeroing grid         :  5.07% (0.0045s)
+|  +- grid correction      :  2.59% (0.0023s)
+|  +- allocating grid      :  0.04% (0.0000s)
 |  
-+- building index       : 14.62% (0.0199s)
-+- correction factors   :  0.03% (0.0000s)
++- building index       :  3.92% (0.0037s)
++- correction factors   :  0.04% (0.0000s)
 +- parameter calculation:  0.01% (0.0000s)
 ```
